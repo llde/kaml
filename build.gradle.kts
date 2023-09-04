@@ -71,10 +71,10 @@ kotlin {
 
         commonTest {
             dependencies {
-                implementation("io.kotest:kotest-assertions-core:5.6.2")
-                implementation("io.kotest:kotest-framework-api:5.6.2")
-                implementation("io.kotest:kotest-framework-engine:5.6.2")
-                implementation("io.kotest:kotest-framework-datatest:5.6.2")
+                implementation("io.kotest:kotest-assertions-core:5.7.1")
+                implementation("io.kotest:kotest-framework-api:5.7.1")
+                implementation("io.kotest:kotest-framework-engine:5.7.1")
+                implementation("io.kotest:kotest-framework-datatest:5.7.1")
             }
         }
 
@@ -86,7 +86,7 @@ kotlin {
 
         named("jvmTest") {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5:5.6.2")
+                implementation("io.kotest:kotest-runner-junit5:5.7.1")
             }
         }
 
