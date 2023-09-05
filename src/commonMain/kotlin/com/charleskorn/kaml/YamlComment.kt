@@ -32,11 +32,3 @@ import kotlinx.serialization.SerialInfo
 public annotation class YamlComment(
     vararg val lines: String,
 )
-
-@OptIn(ExperimentalSerializationApi::class)
-@Target(AnnotationTarget.PROPERTY)
-@Retention(AnnotationRetention.RUNTIME)
-@SerialInfo
-public annotation class YamlSerializationStyle(
-    vararg val style: SingleLineStringStyle,
-)

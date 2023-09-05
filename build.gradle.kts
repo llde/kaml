@@ -113,7 +113,6 @@ java {
 configureAssemble()
 configureJacoco()
 configurePublishing()
-configureSpotless()
 configureTesting()
 configureVersioning()
 configureWrapper()
