@@ -18,11 +18,11 @@
 
 package com.charleskorn.kaml
 
+import com.charleskorn.kaml.serialization.AbstractEncoder
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.PolymorphicKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.StructureKind
-import kotlinx.serialization.encoding.AbstractEncoder
 import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.modules.SerializersModule
 import org.snakeyaml.engine.v2.api.DumpSettings
@@ -75,7 +75,7 @@ internal class YamlOutput(
     override fun encodeNull() = emitPlainScalar("null")
     override fun encodeBoolean(value: Boolean) = emitPlainScalar(value.toString())
     override fun encodeByte(value: Byte) = emitPlainScalar(value.toString())
-    override fun encodeChar(value: Char) = emitQuotedScalar(value.toString(), configuration.singleLineStringStyle.scalarStyle)
+    override fun encodeChar(value: Char) = emitScalar(value.toString(), configuration.singleLineStringStyle.scalarStyle)
     override fun encodeDouble(value: Double) = emitPlainScalar(value.toString())
     override fun encodeFloat(value: Float) = emitPlainScalar(value.toString())
     override fun encodeInt(value: Int) = emitPlainScalar(value.toString())
@@ -87,22 +87,32 @@ internal class YamlOutput(
             shouldReadTypeName = false
         } else {
             when {
-                value.contains('\n') -> emitQuotedScalar(value, configuration.multiLineStringStyle.scalarStyle)
-                configuration.singleLineStringStyle == SingleLineStringStyle.PlainExceptAmbiguous && value.isAmbiguous() -> emitQuotedScalar(value, configuration.ambiguousQuoteStyle.scalarStyle)
-                else -> emitQuotedScalar(value, configuration.singleLineStringStyle.scalarStyle)
+                value.contains('\n') -> emitScalar(value, configuration.multiLineStringStyle.scalarStyle)
+                configuration.singleLineStringStyle == SingleLineStringStyle.PlainExceptAmbiguous && value.isAmbiguous() -> emitScalar(value, configuration.ambiguousQuoteStyle.scalarStyle)
+                else -> emitScalar(value, configuration.singleLineStringStyle.scalarStyle)
             }
         }
     }
 
     override fun encodeEnum(enumDescriptor: SerialDescriptor, index: Int) {
-        emitQuotedScalar(enumDescriptor.getElementName(index), configuration.enumQuoteStyle.scalarStyle)
+        emitScalar(enumDescriptor.getElementName(index), configuration.enumQuoteStyle.scalarStyle)
     }
+
+    override fun encodeStringElement(descriptor: SerialDescriptor, index: Int, value: String) {
+        if(encodeElement(descriptor,index)) {
+            val annotationStyle = descriptor.annotations.filterIsInstance<YamlSerializationStyle>().firstOrNull()
+            if (annotationStyle != null) {
+                emitScalar(value, annotationStyle.style.scalarStyle)
+            } else {
+                encodeString(value)
+            }
+        }
+    }
+
     private fun emitPlainScalar(value: String) = emitScalar(value, ScalarStyle.PLAIN)
-    private fun emitQuotedScalar(value: String, scalarStyle: ScalarStyle) = emitScalar(value, scalarStyle)
 
     override fun encodeElement(descriptor: SerialDescriptor, index: Int): Boolean {
         encodeComment(descriptor, index)
-        println("2 " + descriptor.getElementName(index))
         if (descriptor.kind is StructureKind.CLASS) {
             val elementName = descriptor.getElementName(index)
             val serializedName = configuration.yamlNamingStrategy?.serialNameForYaml(elementName) ?: elementName
@@ -129,7 +139,7 @@ internal class YamlOutput(
 
                         if (typeName.isPresent) {
                             emitPlainScalar(configuration.polymorphismPropertyName)
-                            emitQuotedScalar(typeName.get(), SingleLineStringStyle.DoubleQuoted.scalarStyle)
+                            emitScalar(typeName.get(), SingleLineStringStyle.DoubleQuoted.scalarStyle)
                         }
                     }
                 }

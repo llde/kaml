@@ -8,5 +8,5 @@ import kotlinx.serialization.SerialInfo
 @Retention(AnnotationRetention.RUNTIME)
 @SerialInfo
 public annotation class YamlSerializationStyle(
-    vararg val style: SingleLineStringStyle,
+    val style: SingleLineStringStyle,
 )
