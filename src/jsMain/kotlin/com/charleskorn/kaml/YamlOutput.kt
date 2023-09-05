@@ -101,17 +101,10 @@ internal class YamlOutput(
 
     override fun encodeElement(descriptor: SerialDescriptor, index: Int): Boolean {
         encodeComment(descriptor, index)
-
         if (descriptor.kind is StructureKind.CLASS) {
             val elementName = descriptor.getElementName(index)
             val serializedName = configuration.yamlNamingStrategy?.serialNameForYaml(elementName) ?: elementName
             emitPlainScalar(serializedName)
-        }
-        if (descriptor.kind is PrimitiveKind.STRING) {
-            val styleAnnotation = descriptor.annotations.filterIsInstance<YamlSerializationStyle>().firstOrNull()
-            if(styleAnnotation?.style?.get(0)  != null ) {
-                emitScalar(descriptor.getElementName(index), styleAnnotation.style[0].scalarStyle)
-            }
         }
 
         return super.encodeElement(descriptor, index)
@@ -123,7 +116,6 @@ internal class YamlOutput(
             StructureKind.LIST -> emitter.emit(SequenceStartEvent(null, null, true, configuration.sequenceStyle.flowStyle))
             StructureKind.MAP, StructureKind.CLASS, StructureKind.OBJECT -> {
                 val typeName = getAndClearTypeName()
-
                 when (configuration.polymorphismStyle) {
                     PolymorphismStyle.Tag -> {
                         val implicit = typeName == null
