@@ -48,8 +48,8 @@ public data class YamlConfiguration constructor(
     var multiLineStringStyle: MultiLineStringStyle = singleLineStringStyle.multiLineStringStyle,
     var ambiguousQuoteStyle: AmbiguousQuoteStyle = AmbiguousQuoteStyle.DoubleQuoted,
     var enumQuoteStyle: SingleLineStringStyle = SingleLineStringStyle.DoubleQuoted,
-
     var sequenceBlockIndent: Int = 0,
+    var indentWithIndicator: Boolean = sequenceBlockIndent > 0,
     var allowAnchorsAndAliases: Boolean = false,
     var yamlNamingStrategy: YamlNamingStrategy? = null,
 )

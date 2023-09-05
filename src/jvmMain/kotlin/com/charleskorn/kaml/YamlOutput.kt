@@ -57,7 +57,7 @@ internal class YamlOutput(
         // SnakeYAML helps to validate that this value must be non-negative
         .setIndicatorIndent(configuration.sequenceBlockIndent)
         // No special reason why true is conditional. Designed to be consistent with 0.46.0 of kaml
-        .setIndentWithIndicator(configuration.sequenceBlockIndent > 0)
+        .setIndentWithIndicator(configuration.indentWithIndicator)
         // Unclear if this value is validated
         .setWidth(configuration.breakScalarsAt)
         .build()
