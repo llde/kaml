@@ -20,6 +20,7 @@ package com.charleskorn.kaml
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.PolymorphicKind
+import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.StructureKind
 import kotlinx.serialization.encoding.AbstractEncoder
@@ -105,6 +106,12 @@ internal class YamlOutput(
             val elementName = descriptor.getElementName(index)
             val serializedName = configuration.yamlNamingStrategy?.serialNameForYaml(elementName) ?: elementName
             emitPlainScalar(serializedName)
+        }
+        if (descriptor.kind is PrimitiveKind.STRING) {
+            val styleAnnotation = descriptor.annotations.filterIsInstance<YamlSerializationStyle>().firstOrNull()
+            if(styleAnnotation?.style?.get(0)  != null ) {
+                emitScalar(descriptor.getElementName(index), styleAnnotation.style[0].scalarStyle)
+            }
         }
 
         return super.encodeElement(descriptor, index)

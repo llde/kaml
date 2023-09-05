@@ -30,7 +30,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("io.kotest.multiplatform") version "5.7.1"
-    jacoco
 }
 
 group = "com.charleskorn.kaml"
@@ -38,13 +37,6 @@ group = "com.charleskorn.kaml"
 repositories {
     mavenCentral()
 }
-
-
-jacoco {
-    toolVersion = "0.8.10"
-    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
-}
-
 
 kotlin {
     explicitApi()

@@ -47,7 +47,7 @@ public data class YamlConfiguration constructor(
     var singleLineStringStyle: SingleLineStringStyle = SingleLineStringStyle.DoubleQuoted,
     var multiLineStringStyle: MultiLineStringStyle = singleLineStringStyle.multiLineStringStyle,
     var ambiguousQuoteStyle: AmbiguousQuoteStyle = AmbiguousQuoteStyle.DoubleQuoted,
-    var enumQuoteStyle: SingleLineStringStyle = SingleLineStringStyle.Plain,
+    var enumQuoteStyle: SingleLineStringStyle = SingleLineStringStyle.DoubleQuoted,
 
     var sequenceBlockIndent: Int = 0,
     var allowAnchorsAndAliases: Boolean = false,
