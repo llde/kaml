@@ -36,20 +36,20 @@ package com.charleskorn.kaml
  * * [allowAnchorsAndAliases]: set to true to allow anchors and aliases when decoding YAML (defaults to `false`)
  */
 public data class YamlConfiguration constructor(
-    internal val encodeDefaults: Boolean = true,
-    internal val strictMode: Boolean = true,
-    internal val extensionDefinitionPrefix: String? = null,
-    internal val polymorphismStyle: PolymorphismStyle = PolymorphismStyle.Tag,
-    internal val polymorphismPropertyName: String = "type",
-    internal val encodingIndentationSize: Int = 2,
-    internal val breakScalarsAt: Int = 80,
-    internal val sequenceStyle: SequenceStyle = SequenceStyle.Block,
-    internal val singleLineStringStyle: SingleLineStringStyle = SingleLineStringStyle.DoubleQuoted,
-    internal val multiLineStringStyle: MultiLineStringStyle = singleLineStringStyle.multiLineStringStyle,
-    internal val ambiguousQuoteStyle: AmbiguousQuoteStyle = AmbiguousQuoteStyle.DoubleQuoted,
-    internal val sequenceBlockIndent: Int = 0,
-    internal val allowAnchorsAndAliases: Boolean = false,
-    internal val yamlNamingStrategy: YamlNamingStrategy? = null,
+    var encodeDefaults: Boolean = true,
+    var strictMode: Boolean = true,
+    var extensionDefinitionPrefix: String? = null,
+    var polymorphismStyle: PolymorphismStyle = PolymorphismStyle.Tag,
+    var polymorphismPropertyName: String = "type",
+    var encodingIndentationSize: Int = 2,
+    var breakScalarsAt: Int = 80,
+    var sequenceStyle: SequenceStyle = SequenceStyle.Block,
+    var singleLineStringStyle: SingleLineStringStyle = SingleLineStringStyle.DoubleQuoted,
+    var multiLineStringStyle: MultiLineStringStyle = singleLineStringStyle.multiLineStringStyle,
+    var ambiguousQuoteStyle: AmbiguousQuoteStyle = AmbiguousQuoteStyle.DoubleQuoted,
+    var sequenceBlockIndent: Int = 0,
+    var allowAnchorsAndAliases: Boolean = false,
+    var yamlNamingStrategy: YamlNamingStrategy? = null,
 )
 
 public enum class PolymorphismStyle {
