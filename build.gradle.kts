@@ -30,6 +30,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("io.kotest.multiplatform") version "5.7.1"
+    jacoco
 }
 
 group = "com.charleskorn.kaml"
@@ -37,6 +38,13 @@ group = "com.charleskorn.kaml"
 repositories {
     mavenCentral()
 }
+
+
+jacoco {
+    toolVersion = "0.8.10"
+    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
+}
+
 
 kotlin {
     explicitApi()
@@ -101,13 +109,13 @@ kotlin {
 
 tasks.withType<KotlinCompile> {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_1_8)
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 configureAssemble()
