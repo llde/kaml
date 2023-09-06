@@ -57,7 +57,7 @@ internal class YamlOutput(
         // SnakeYAML helps to validate that this value must be non-negative
         .setIndicatorIndent(configuration.sequenceBlockIndent)
         // No special reason why true is conditional. Designed to be consistent with 0.46.0 of kaml
-        .setIndentWithIndicator(configuration.indentWithIndicator)
+        .setIndentWithIndicator(configuration.sequenceBlockIndent > 0)
         // Unclear if this value is validated
         .setWidth(configuration.breakScalarsAt)
         .build()
@@ -104,7 +104,8 @@ internal class YamlOutput(
 
     override fun encodeStringElement(descriptor: SerialDescriptor, index: Int, value: String) {
         if(encodeElement(descriptor,index)) {
-            val annotationStyle = descriptor.annotations.filterIsInstance<YamlSerializationStyle>().firstOrNull()
+            val annotationStyle = descriptor.getElementAnnotations(index).filterIsInstance<YamlSerializationStyle>().firstOrNull()
+            println("$value $annotationStyle")
             if (annotationStyle != null) {
                 emitScalar(value, annotationStyle.style.scalarStyle)
             } else {
@@ -132,7 +133,6 @@ internal class YamlOutput(
             StructureKind.LIST -> emitter.emit(SequenceStartEvent(Optional.empty(), Optional.empty(), true, configuration.sequenceStyle.flowStyle))
             StructureKind.MAP, StructureKind.CLASS, StructureKind.OBJECT -> {
                 val typeName = getAndClearTypeName()
-                println(typeName)
                 when (configuration.polymorphismStyle) {
                     PolymorphismStyle.Tag -> {
                         val implicit = !typeName.isPresent
