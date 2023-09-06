@@ -105,7 +105,6 @@ internal class YamlOutput(
     override fun encodeStringElement(descriptor: SerialDescriptor, index: Int, value: String) {
         if(encodeElement(descriptor,index)) {
             val annotationStyle = descriptor.getElementAnnotations(index).filterIsInstance<YamlSerializationStyle>().firstOrNull()
-            println("$value $annotationStyle")
             if (annotationStyle != null) {
                 emitScalar(value, annotationStyle.style.scalarStyle)
             } else {
