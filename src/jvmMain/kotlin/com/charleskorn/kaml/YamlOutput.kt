@@ -146,7 +146,7 @@ internal class YamlOutput(
                         }
                     }
                     PolymorphismStyle.None -> {
-                        emitter.emit(MappingStartEvent(Optional.empty(), null, true, FlowStyle.BLOCK))
+                        emitter.emit(MappingStartEvent(Optional.empty(), Optional.empty(), true, FlowStyle.BLOCK))
                     }
                 }
             }
