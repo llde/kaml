@@ -56,6 +56,7 @@ public data class YamlConfiguration constructor(
 public enum class PolymorphismStyle {
     Tag,
     Property,
+    None,
 }
 
 public enum class SequenceStyle {
